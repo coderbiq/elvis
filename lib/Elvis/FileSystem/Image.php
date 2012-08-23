@@ -58,15 +58,33 @@ class Image
 
     public function resize(Array $_config = array())
     {
+        $src_width = ImageSX($this->_image);
+        $src_height = ImageSY($this->_image);
+
+        $new_image = ImageCreateTrueColor($_config['width'], $_config['height']);
+        ImageCopyResampled($new_image, $this->_image, 0, 0, 
+            $_config['x'], $_config['y'], $_config['width'], $_config['height'],
+            $_config['width'], $_config['height']
+        );
+        $this->_image = $new_image;
+        return $this;
     }
 
+    /**
+     * @TODO 旋转后的图片质量为下降
+     */
     public function rotate($_degrees = 90)
     {
-        $this->_image = imagerotate($this->_image, $_degrees);
+        $this->_image = imagerotate($this->_image, $_degrees, 0);
         return $this;
     }
 
     public function save()
+    {
+        $this->output($this->getFile()->getFullName());
+    }
+
+    public function output($_file_name = null)
     {
         $function = null;
         switch($this->getType())
@@ -88,6 +106,6 @@ class Image
         if(!function_exists($function))
             throw new Exception('缺少必要的系统支持');
 
-        $function($this->_image, $this->getFile()->getFullName());
+        $function($this->_image, $_file_name);
     }
 }
