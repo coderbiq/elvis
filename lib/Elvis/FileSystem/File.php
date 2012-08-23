@@ -27,6 +27,11 @@ class File
         return sprintf('%s/%s', $this->getDir()->getPath(), $this->getName());
     }
 
+    public function getExt()
+    {
+        return substr(strrchr($this->getName(), '.'), 1);
+    }
+
     public function getDir()
     {
         return $this->_dir;
