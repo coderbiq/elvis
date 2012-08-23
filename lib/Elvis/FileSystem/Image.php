@@ -56,7 +56,7 @@ class Image
         return $this->_image;
     }
 
-    public function resize(\Array $_config = array())
+    public function resize(Array $_config = array())
     {
     }
 
