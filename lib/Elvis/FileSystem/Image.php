@@ -23,6 +23,16 @@ class Image
         return exif_imagetype($this->getFile()->getFullName());
     }
 
+    public function getWidth()
+    {
+        return ImageSX($this->_image);
+    }
+
+    public function getHeight()
+    {
+        return ImageSY($this->_image);
+    }
+
     public function getMimeType()
     {
         return image_type_to_mime_type($this->getType());
@@ -79,9 +89,12 @@ class Image
         return $this;
     }
 
-    public function save()
+    public function save($_new_name = null)
     {
-        $this->output($this->getFile()->getFullName());
+        if($_new_name == null)
+            $_new_name = $this->getFile()->getFullName();
+
+        $this->output($_new_name);
     }
 
     public function output($_file_name = null)
